@@ -1,12 +1,44 @@
 import { Router } from 'express';
-import empleadoController from '../controllers/empleados.controllers';
+
+import { EmpleadosController }
+    from '../controllers/empleados.controllers';
+
+import { MongooseEmployeeRepository }
+    from '../repositories/MongooseEmployeeRepository';
 
 const router = Router();
 
-router.get('/empleados', empleadoController.getEmpleado);
-router.post('/empleados', empleadoController.addEmpleado);
+const empleadoRepository =
+    new MongooseEmployeeRepository();
 
-router.put('/empleados/:id', empleadoController.updateEmpleado);
-router.delete('/empleados/:id', empleadoController.deleteEmpleado);
+const empleadoController =
+    new EmpleadosController(
+        empleadoRepository
+    );
+
+router.get(
+    '/empleados',
+    empleadoController.getEmpleados
+);
+
+router.get(
+    '/empleados/:id',
+    empleadoController.getEmpleadoById
+);
+
+router.post(
+    '/empleados',
+    empleadoController.addEmpleado
+);
+
+router.put(
+    '/empleados/:id',
+    empleadoController.updateEmpleado
+);
+
+router.delete(
+    '/empleados/:id',
+    empleadoController.deleteEmpleado
+);
 
 export default router;
