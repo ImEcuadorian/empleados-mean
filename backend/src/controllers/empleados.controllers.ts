@@ -3,13 +3,29 @@ import type {
     Response
 } from 'express';
 
-import { IEmployeeRepository }
+import type {
+    CreateEmployeeDto,
+    EmployeeIdParams,
+    UpdateEmployeeDto
+} from '../dtos/employee.dto';
+
+import { AppError }
+    from '../errors/AppError';
+
+import type { IEmployeeRepository }
     from '../repositories/IEmployeeRepository';
+
+import { sendSuccess }
+    from '../shared/api-response';
+
+type NoParams =
+    Record<string, never>;
 
 export class EmpleadosController {
 
     constructor(
-        private readonly repository: IEmployeeRepository
+        private readonly repository:
+        IEmployeeRepository
     ) {}
 
     getEmpleados = async (
@@ -20,11 +36,16 @@ export class EmpleadosController {
         const empleados =
             await this.repository.findAll();
 
-        res.json(empleados);
+        sendSuccess(
+            res,
+            200,
+            'Empleados obtenidos correctamente',
+            empleados
+        );
     };
 
     getEmpleadoById = async (
-        req: Request<{ id: string }>,
+        req: Request<EmployeeIdParams>,
         res: Response
     ): Promise<void> => {
 
@@ -34,29 +55,48 @@ export class EmpleadosController {
             await this.repository.findById(id);
 
         if (!empleado) {
-            res.status(404).json({
-                message: 'Empleado no encontrado'
-            });
-
-            return;
+            throw new AppError(
+                404,
+                'Empleado no encontrado'
+            );
         }
 
-        res.json(empleado);
+        sendSuccess(
+            res,
+            200,
+            'Empleado obtenido correctamente',
+            empleado
+        );
     };
 
     addEmpleado = async (
-        req: Request,
+        req: Request<
+            NoParams,
+            unknown,
+            CreateEmployeeDto
+        >,
         res: Response
     ): Promise<void> => {
 
         const empleado =
-            await this.repository.create(req.body);
+            await this.repository.create(
+                req.body
+            );
 
-        res.status(201).json(empleado);
+        sendSuccess(
+            res,
+            201,
+            'Empleado creado correctamente',
+            empleado
+        );
     };
 
     updateEmpleado = async (
-        req: Request<{ id: string }>,
+        req: Request<
+            EmployeeIdParams,
+            unknown,
+            UpdateEmployeeDto
+        >,
         res: Response
     ): Promise<void> => {
 
@@ -69,18 +109,22 @@ export class EmpleadosController {
             );
 
         if (!empleado) {
-            res.status(404).json({
-                message: 'Empleado no encontrado'
-            });
-
-            return;
+            throw new AppError(
+                404,
+                'Empleado no encontrado'
+            );
         }
 
-        res.json(empleado);
+        sendSuccess(
+            res,
+            200,
+            'Empleado actualizado correctamente',
+            empleado
+        );
     };
 
     deleteEmpleado = async (
-        req: Request<{ id: string }>,
+        req: Request<EmployeeIdParams>,
         res: Response
     ): Promise<void> => {
 
@@ -90,15 +134,16 @@ export class EmpleadosController {
             await this.repository.delete(id);
 
         if (!eliminado) {
-            res.status(404).json({
-                message: 'Empleado no encontrado'
-            });
-
-            return;
+            throw new AppError(
+                404,
+                'Empleado no encontrado'
+            );
         }
 
-        res.json({
-            message: 'Empleado eliminado correctamente'
-        });
+        sendSuccess(
+            res,
+            200,
+            'Empleado eliminado correctamente'
+        );
     };
 }

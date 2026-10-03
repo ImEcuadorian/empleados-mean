@@ -3,42 +3,70 @@ import { Router } from 'express';
 import { EmpleadosController }
     from '../controllers/empleados.controllers';
 
+import {
+    createEmployeeSchema,
+    employeeIdParamsSchema,
+    updateEmployeeSchema
+} from '../dtos/employee.dto';
+
+import { validateRequest }
+    from '../middlewares/validation.middleware';
+
 import { MongooseEmployeeRepository }
     from '../repositories/MongooseEmployeeRepository';
 
 const router = Router();
 
-const empleadoRepository =
+const repository =
     new MongooseEmployeeRepository();
 
-const empleadoController =
-    new EmpleadosController(
-        empleadoRepository
-    );
+const controller =
+    new EmpleadosController(repository);
 
 router.get(
     '/empleados',
-    empleadoController.getEmpleados
+    controller.getEmpleados
 );
 
 router.get(
     '/empleados/:id',
-    empleadoController.getEmpleadoById
+
+    validateRequest({
+        params: employeeIdParamsSchema
+    }),
+
+    controller.getEmpleadoById
 );
 
 router.post(
     '/empleados',
-    empleadoController.addEmpleado
+
+    validateRequest({
+        body: createEmployeeSchema
+    }),
+
+    controller.addEmpleado
 );
 
 router.put(
     '/empleados/:id',
-    empleadoController.updateEmpleado
+
+    validateRequest({
+        params: employeeIdParamsSchema,
+        body: updateEmployeeSchema
+    }),
+
+    controller.updateEmpleado
 );
 
 router.delete(
     '/empleados/:id',
-    empleadoController.deleteEmpleado
+
+    validateRequest({
+        params: employeeIdParamsSchema
+    }),
+
+    controller.deleteEmpleado
 );
 
 export default router;
