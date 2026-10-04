@@ -244,16 +244,6 @@ flowchart LR
     F --> G[(MongoDB)]
 ```
 
-## Manejo reactivo del frontend
-
-```mermaid
-flowchart TD
-    A[EmpleadoService] -->|empleados$| B[EmpleadoComponent Smart]
-    B -->|@Input empleados| C[EmpleadoListComponent Dumb]
-    D[EmpleadoFormComponent Dumb] -->|@Output crear| B
-    C -->|@Output eliminar| B
-    B --> A
-```
 
 ## Historial principal de refactorización
 
