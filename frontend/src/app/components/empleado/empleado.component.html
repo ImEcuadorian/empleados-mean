@@ -2,140 +2,25 @@
 
   <div class="col-md-4">
 
-    <div class="card">
-
-      <div class="card-body">
-
-        <h1>
-          Registro de Nuevo Empleado
-        </h1>
-
-        <form
-          #empleadoForm="ngForm"
-          (ngSubmit)="addEmpleado(empleadoForm)"
-        >
-
-          <div class="form-group">
-            <input
-              type="text"
-              class="form-control"
-              name="nombre"
-              placeholder="Ingrese su nombre"
-              [(ngModel)]="formEmpleado.nombre"
-              required
-            >
-          </div>
-
-          <div class="form-group">
-            <input
-              type="text"
-              class="form-control"
-              name="cargo"
-              placeholder="Ingrese su cargo"
-              [(ngModel)]="formEmpleado.cargo"
-              required
-            >
-          </div>
-
-          <div class="form-group">
-            <input
-              type="text"
-              class="form-control"
-              name="departamento"
-              placeholder="Ingrese su departamento"
-              [(ngModel)]="formEmpleado.departamento"
-              required
-            >
-          </div>
-
-          <div class="form-group">
-            <input
-              type="number"
-              class="form-control"
-              name="sueldo"
-              placeholder="Ingrese su sueldo"
-              [(ngModel)]="formEmpleado.sueldo"
-              required
-            >
-          </div>
-
-          <button
-            type="submit"
-            class="btn btn-primary"
-          >
-            Crear
-          </button>
-
-        </form>
-
-      </div>
-
-    </div>
+    <app-empleado-form
+      (crear)="crearEmpleado($event)"
+    />
 
   </div>
 
 
   <div class="col-md-8">
 
-    <table class="table table-striped">
+    <ng-container
+      *ngIf="empleados$ | async as empleados"
+    >
 
-      <thead>
-      <tr>
-        <th>Nombre</th>
-        <th>Cargo</th>
-        <th>Departamento</th>
-        <th>Sueldo</th>
-        <th>Operaciones</th>
-      </tr>
-      </thead>
+      <app-empleado-list
+        [empleados]="empleados"
+        (eliminar)="eliminarEmpleado($event)"
+      />
 
-      <tbody>
-
-      <ng-container
-        *ngIf="empleados$ | async as empleados"
-      >
-
-        <tr
-          *ngFor="let empleado of empleados"
-        >
-
-          <td>
-            {{ empleado.nombre }}
-          </td>
-
-          <td>
-            {{ empleado.cargo }}
-          </td>
-
-          <td>
-            {{ empleado.departamento }}
-          </td>
-
-          <td>
-            {{ empleado.sueldo }}
-          </td>
-
-          <td>
-
-            <button
-              type="button"
-              class="btn btn-danger"
-              (click)="eliminarEmpleado(
-                  empleado.id
-                )"
-            >
-              Eliminar
-            </button>
-
-          </td>
-
-        </tr>
-
-      </ng-container>
-
-      </tbody>
-
-    </table>
+    </ng-container>
 
   </div>
 

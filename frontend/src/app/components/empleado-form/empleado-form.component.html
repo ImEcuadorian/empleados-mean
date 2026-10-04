@@ -1,0 +1,99 @@
+<div class="card">
+
+  <div class="card-body">
+
+    <h2>
+      Registro de Nuevo Empleado
+    </h2>
+
+    <form
+      #empleadoForm="ngForm"
+      (ngSubmit)="onSubmit(empleadoForm)"
+    >
+
+      <div class="form-group">
+
+        <label for="nombre">
+          Nombre
+        </label>
+
+        <input
+          id="nombre"
+          type="text"
+          class="form-control"
+          name="nombre"
+          placeholder="Ingrese su nombre"
+          [(ngModel)]="empleado.nombre"
+          required
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="cargo">
+          Cargo
+        </label>
+
+        <input
+          id="cargo"
+          type="text"
+          class="form-control"
+          name="cargo"
+          placeholder="Ingrese su cargo"
+          [(ngModel)]="empleado.cargo"
+          required
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="departamento">
+          Departamento
+        </label>
+
+        <input
+          id="departamento"
+          type="text"
+          class="form-control"
+          name="departamento"
+          placeholder="Ingrese su departamento"
+          [(ngModel)]="empleado.departamento"
+          required
+        >
+
+      </div>
+
+      <div class="form-group">
+
+        <label for="sueldo">
+          Sueldo
+        </label>
+
+        <input
+          id="sueldo"
+          type="number"
+          class="form-control"
+          name="sueldo"
+          placeholder="Ingrese su sueldo"
+          [(ngModel)]="empleado.sueldo"
+          min="0"
+          required
+        >
+
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="empleadoForm.invalid"
+      >
+        Crear
+      </button>
+
+    </form>
+
+  </div>
+
+</div>

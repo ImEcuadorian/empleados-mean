@@ -3,8 +3,6 @@ import {
   OnInit
 } from '@angular/core';
 
-import { NgForm } from '@angular/forms';
-
 import {
   NuevoEmpleado
 } from '../../models/empleado';
@@ -22,21 +20,11 @@ export class EmpleadoComponent
   implements OnInit {
 
   /*
-   * El componente NO almacena
-   * el arreglo de empleados.
-   *
-   * Solo expone el Observable
-   * del servicio.
+   * El Smart Component conoce
+   * el servicio.
    */
   readonly empleados$ =
     this.empleadoService.empleados$;
-
-  formEmpleado: NuevoEmpleado = {
-    nombre: '',
-    cargo: '',
-    departamento: '',
-    sueldo: 0
-  };
 
   constructor(
     private readonly empleadoService:
@@ -44,10 +32,6 @@ export class EmpleadoComponent
   ) {}
 
   ngOnInit(): void {
-    this.cargarEmpleados();
-  }
-
-  cargarEmpleados(): void {
 
     this.empleadoService
       .cargarEmpleados()
@@ -61,29 +45,13 @@ export class EmpleadoComponent
       });
   }
 
-  addEmpleado(
-    form: NgForm
+  crearEmpleado(
+    empleado: NuevoEmpleado
   ): void {
 
-    if (form.invalid) {
-      return;
-    }
-
     this.empleadoService
-      .crearEmpleado({
-        ...this.formEmpleado
-      })
+      .crearEmpleado(empleado)
       .subscribe({
-        next: () => {
-
-          form.resetForm({
-            nombre: '',
-            cargo: '',
-            departamento: '',
-            sueldo: 0
-          });
-        },
-
         error: (error) => {
           console.error(
             'Error al crear empleado:',
@@ -94,12 +62,8 @@ export class EmpleadoComponent
   }
 
   eliminarEmpleado(
-    id?: string
+    id: string
   ): void {
-
-    if (!id) {
-      return;
-    }
 
     this.empleadoService
       .eliminarEmpleado(id)

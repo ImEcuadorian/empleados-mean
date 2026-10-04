@@ -14,11 +14,15 @@ import { FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { EmpleadoComponent } from './components/empleado/empleado.component';
+import { EmpleadoFormComponent } from './components/empleado-form/empleado-form.component';
+import { EmpleadoListComponent } from './components/empleado-list/empleado-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    EmpleadoComponent
+    EmpleadoComponent,
+    EmpleadoFormComponent,
+    EmpleadoListComponent
   ],
 
   imports: [

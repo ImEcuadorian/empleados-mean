@@ -1,0 +1,73 @@
+<div class="table-responsive">
+
+  <table class="table table-striped">
+
+    <thead>
+
+    <tr>
+      <th>Nombre</th>
+      <th>Cargo</th>
+      <th>Departamento</th>
+      <th>Sueldo</th>
+      <th>Operaciones</th>
+    </tr>
+
+    </thead>
+
+    <tbody>
+
+    <tr
+      *ngFor="
+          let empleado of empleados;
+          trackBy: trackByEmpleadoId
+        "
+    >
+
+      <td>
+        {{ empleado.nombre }}
+      </td>
+
+      <td>
+        {{ empleado.cargo }}
+      </td>
+
+      <td>
+        {{ empleado.departamento }}
+      </td>
+
+      <td>
+        {{ empleado.sueldo }}
+      </td>
+
+      <td>
+
+        <button
+          type="button"
+          class="btn btn-danger"
+          (click)="onEliminar(
+              empleado.id
+            )"
+        >
+          Eliminar
+        </button>
+
+      </td>
+
+    </tr>
+
+    <tr *ngIf="empleados.length === 0">
+
+      <td
+        colspan="5"
+        class="text-center"
+      >
+        No existen empleados registrados.
+      </td>
+
+    </tr>
+
+    </tbody>
+
+  </table>
+
+</div>
