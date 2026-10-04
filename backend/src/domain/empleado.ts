@@ -7,3 +7,9 @@ export interface Empleado {
     createdAt?: Date;
     updatedAt?: Date;
 }
+
+export type NuevoEmpleado =
+    Omit<Empleado, 'id' | 'createdAt' | 'updatedAt'>;
+
+export type ActualizarEmpleado =
+    Partial<NuevoEmpleado>;
