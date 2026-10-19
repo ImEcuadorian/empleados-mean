@@ -1,0 +1,41 @@
+config:
+  target: "http://localhost:3000"
+
+  phases:
+    - duration: 20
+      arrivalRate: 5
+      name: "1. Fase de calentamiento - Trafico base"
+
+    - duration: 30
+      arrivalRate: 15
+      rampTo: 50
+      name: "2. Fase de saturacion maxima - Pico de carga"
+
+scenarios:
+  - name: "Inundacion transaccional perimetral - Payloads mixtos Zod"
+
+    flow:
+      # FLUJO A
+      # Datos correctos:
+      # Express -> Zod -> Controller -> Repository -> MongoDB
+      - post:
+          url: "/api/v1/empleados"
+          json:
+            nombre: "Andres Mendoza"
+            cargo: "Software Architect"
+            departamento: "I+D"
+            sueldo: 4200
+
+      - think: 1
+
+      # FLUJO B
+      # Datos incorrectos:
+      # Express -> Zod -> 400
+      # NO deberia alcanzar Repository ni MongoDB
+      - post:
+          url: "/api/v1/empleados"
+          json:
+            nombre: "A"
+            cargo: "Dev"
+            departamento: "TI"
+            sueldo: -500

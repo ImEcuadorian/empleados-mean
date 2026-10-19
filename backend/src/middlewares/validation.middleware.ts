@@ -53,7 +53,7 @@ export const validateRequest = (
             if (!result.success) {
                 next(
                     new AppError(
-                        422,
+                        400,
                         'Datos de solicitud inválidos',
                         result.error.flatten()
                     )

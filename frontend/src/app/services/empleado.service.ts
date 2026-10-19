@@ -24,21 +24,9 @@ export class EmpleadoService {
   private readonly URL_API =
     'http://localhost:3000/api/v1/empleados';
 
-  /*
-   * Estado interno.
-   *
-   * Es privado para impedir que otros componentes
-   * puedan ejecutar .next() directamente.
-   */
   private readonly empleadosSubject =
     new BehaviorSubject<readonly Empleado[]>([]);
 
-  /*
-   * Estado público de solo lectura.
-   *
-   * Los componentes pueden suscribirse,
-   * pero no pueden modificar el BehaviorSubject.
-   */
   readonly empleados$: Observable<readonly Empleado[]> =
     this.empleadosSubject.asObservable();
 
@@ -59,12 +47,6 @@ export class EmpleadoService {
         ),
 
         tap((empleados) => {
-          /*
-           * Creamos una referencia nueva.
-           *
-           * NO:
-           * this.empleadosSubject.value.push(...)
-           */
           this.empleadosSubject.next(
             [...empleados]
           );
@@ -106,11 +88,6 @@ export class EmpleadoService {
           const current =
             this.empleadosSubject.value;
 
-          /*
-           * Actualización INMUTABLE.
-           *
-           * Creamos un nuevo arreglo.
-           */
           this.empleadosSubject.next([
             ...current,
             nuevoEmpleado
@@ -139,12 +116,6 @@ export class EmpleadoService {
           const current =
             this.empleadosSubject.value;
 
-          /*
-           * map() genera un nuevo arreglo.
-           *
-           * No modificamos directamente
-           * ningún elemento del estado actual.
-           */
           const nuevoEstado =
             current.map((empleado) =>
               empleado.id === id
@@ -173,9 +144,6 @@ export class EmpleadoService {
           const current =
             this.empleadosSubject.value;
 
-          /*
-           * filter() genera un arreglo nuevo.
-           */
           const nuevoEstado =
             current.filter(
               (empleado) =>
