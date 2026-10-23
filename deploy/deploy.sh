@@ -15,7 +15,11 @@ test -f "$base/shared/backend.env"
 ln -s "$base/shared/backend.env" "$release/backend/.env"
 cd "$release/backend"
 npm ci --omit=dev --ignore-scripts --no-audit --no-fund
-previous=$(readlink -f "$base/current" || true)
+previous=''
+if [[ -L "$base/current" ]]; then
+  previous=$(readlink -f "$base/current" || true)
+  [[ "$previous" == "$base/releases/"* && -d "$previous" ]] || previous=''
+fi
 ln -s "$release" "$base/current.next"
 mv -Tf "$base/current.next" "$base/current"
 pm2 startOrRestart "$release/ecosystem.config.cjs" --update-env

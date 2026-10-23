@@ -41,7 +41,13 @@ No se necesita una llave de AWS IAM para este mecanismo.
 Los secretos de MongoDB y JWT permanecen en EC2 y no forman parte del artefacto
 ni de Git. La cuenta de aplicación se guarda en Atlas con contraseña hasheada.
 El archivo `deploy/nginx.conf` es la base HTTP; al habilitar TLS en EC2 se añade
-el certificado y una redirección a HTTPS a la configuración instalada.
+el certificado y una redirección a HTTPS a la configuración instalada. La plantilla
+`nginx.https.conf` contiene la configuración para la IP actual.
+
+HTTPS usa un certificado de Let's Encrypt para la IP, obtenido con Certbot 5.8.
+Los certificados de IP son de corta duración y Certbot los renueva automáticamente.
+La renovación usa el puerto 80 y recarga Nginx mediante un deploy hook. Comprueba
+periódicamente `sudo snap services certbot` y `sudo /snap/bin/certbot certificates`.
 
 ## Requisitos de red
 
