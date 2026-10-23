@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 export const connectDatabase = async (): Promise<void> => {
-  const MONGO_URI = 'mongodb://127.0.0.1/usuarios_db';
+  const MONGO_URI = process.env.MONGO_URI ?? 'mongodb://127.0.0.1/usuarios_db';
   try {
     await mongoose.connect(MONGO_URI);
     console.log('🔄 [Database]: Conexión exitosa a MongoDB');
@@ -10,4 +10,4 @@ export const connectDatabase = async (): Promise<void> => {
     process.exit(1);
   }
 };
-    
+

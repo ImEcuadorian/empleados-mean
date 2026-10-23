@@ -204,6 +204,28 @@ mongodb://127.0.0.1/usuarios_db
 
 ### 3. Ejecutar el backend
 
+Primero configura la autenticación (desde `backend`):
+
+```powershell
+npm install
+Copy-Item .env.example .env
+node -e "console.log(require('node:crypto').randomBytes(32).toString('hex'))"
+```
+
+Copia el secreto generado en `JWT_SECRET` dentro de `.env`. Configura también
+`MONGO_URI` y `FRONTEND_ORIGIN` si cambias los valores locales. No subas `.env`
+a GitHub. Si ya existe `.env`, conserva su contenido en lugar de sobrescribirlo.
+
+Con MongoDB encendido, crea tu cuenta:
+
+```powershell
+npm run create-user
+```
+
+El comando solicita nombre, correo y una contraseña de al menos 12 caracteres
+(máximo 72 bytes); oculta la entrada de contraseña y guarda únicamente su hash bcrypt.
+No hay registro público: toda cuenta creada tiene acceso al CRUD completo.
+
 ```bash
 cd backend
 npm install
@@ -231,6 +253,39 @@ Aplicación:
 ```text
 http://localhost:4200
 ```
+
+Abre `/login` e ingresa con la cuenta creada. El JWT dura 15 minutos y se guarda
+solo en memoria: cerrar sesión, recargar o expirar el token requiere otro login.
+El botón de cerrar sesión borra el token y los empleados del estado de Angular.
+Un token ya emitido puede seguir utilizándose fuera del navegador hasta vencer;
+el cierre de sesión no implementa una lista de revocación. Eliminar el usuario
+en MongoDB bloquea sus tokens en la siguiente petición.
+
+### Autenticación de la API
+
+- `POST /api/v1/auth/login`: recibe `{ "email": "...", "password": "..." }`.
+  Responde con `data.token`, `data.expiresIn` y `data.usuario`.
+- `GET /api/v1/auth/me`: consulta los datos públicos del usuario autenticado.
+- Todas las rutas de empleados requieren `Authorization: Bearer <token>`.
+- Se verifican firma HS256, emisor, audiencia, expiración y existencia del usuario.
+- El login limita a 10 intentos fallidos por IP cada 15 minutos. El contador es
+  local al proceso y se reinicia con el servidor.
+- Las respuestas autenticadas no se almacenan en caché y el hash no se expone.
+
+Para comprobar el código:
+
+```powershell
+cd backend
+npm run typecheck
+npm test -- --runInBand
+cd ../frontend
+npm run build
+```
+
+La compilación de producción usa `/api/v1` en el mismo origen. Para el despliegue
+posterior habrá que configurar HTTPS y el proxy de Nginx hacia Node.js; si se
+configura `trust proxy`, debe limitarse a los proxies de confianza para que el
+límite de intentos use la IP correcta. Este cambio no realiza el despliegue.
 
 ## Flujo de una solicitud
 

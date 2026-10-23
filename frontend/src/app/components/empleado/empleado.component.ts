@@ -10,6 +10,7 @@ import {
 import {
   EmpleadoService
 } from '../../services/empleado.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-empleado',
@@ -27,6 +28,7 @@ export class EmpleadoComponent
     this.empleadoService.empleados$;
 
   constructor(
+    readonly auth: AuthService,
     private readonly empleadoService:
     EmpleadoService
   ) {}

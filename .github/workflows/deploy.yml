@@ -1,0 +1,84 @@
+name: Test and deploy to AWS EC2
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: empleados-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  test-and-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            backend/package-lock.json
+            frontend/package-lock.json
+      - name: Install backend dependencies
+        run: npm ci
+        working-directory: backend
+      - name: Check backend types and tests
+        run: |
+          npm run typecheck
+          npm test -- --runInBand
+          npm run build
+        working-directory: backend
+      - name: Install frontend dependencies
+        run: npm ci
+        working-directory: frontend
+      - name: Test and build Angular
+        run: |
+          npm test -- --watch=false --browsers=ChromeHeadless
+          npm run build
+        working-directory: frontend
+      - name: Package release without credentials
+        run: |
+          mkdir -p release/backend release/frontend
+          cp -r backend/dist release/backend/dist
+          cp backend/package.json backend/package-lock.json release/backend/
+          cp -r frontend/dist/frontend/browser/. release/frontend/
+          cp deploy/ecosystem.config.cjs release/
+          tar -czf release.tar.gz -C release .
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release
+          path: release.tar.gz
+          retention-days: 3
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: test-and-build
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release
+      - name: Upload and activate release
+        env:
+          DEPLOY_HOST: ${{ vars.EC2_HOST }}
+          DEPLOY_SSH_KEY: ${{ secrets.EC2_DEPLOY_KEY }}
+          DEPLOY_KNOWN_HOSTS: ${{ secrets.EC2_KNOWN_HOSTS }}
+          COMMIT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$DEPLOY_SSH_KEY" > ~/.ssh/deploy_key
+          printf '%s\n' "$DEPLOY_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/deploy_key ~/.ssh/known_hosts
+          ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20 \
+            -i ~/.ssh/deploy_key "deploy@$DEPLOY_HOST" "deploy $COMMIT_SHA" < release.tar.gz

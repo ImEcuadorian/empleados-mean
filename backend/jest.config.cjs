@@ -3,5 +3,6 @@ module.exports = {
     testEnvironment: 'node',
     verbose: true,
     clearMocks: true,
+    watchman: false,
     testMatch: ['**/?(*.)+(spec|test).ts']
 };

@@ -6,7 +6,8 @@ import {
 
 import {
   provideHttpClient,
-  withFetch
+  withFetch,
+  withInterceptors
 } from '@angular/common/http';
 
 import { FormsModule } from '@angular/forms';
@@ -16,13 +17,16 @@ import { AppComponent } from './app.component';
 import { EmpleadoComponent } from './components/empleado/empleado.component';
 import { EmpleadoFormComponent } from './components/empleado-form/empleado-form.component';
 import { EmpleadoListComponent } from './components/empleado-list/empleado-list.component';
+import { LoginComponent } from './components/login/login.component';
+import { authInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
     AppComponent,
     EmpleadoComponent,
     EmpleadoFormComponent,
-    EmpleadoListComponent
+    EmpleadoListComponent,
+    LoginComponent
   ],
 
   imports: [
@@ -33,7 +37,7 @@ import { EmpleadoListComponent } from './components/empleado-list/empleado-list.
 
   providers: [
     provideClientHydration(),
-    provideHttpClient(withFetch())
+    provideHttpClient(withFetch(), withInterceptors([authInterceptor]))
   ],
 
   bootstrap: [

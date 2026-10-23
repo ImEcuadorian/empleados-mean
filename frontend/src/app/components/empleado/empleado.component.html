@@ -1,3 +1,7 @@
+<header class="d-flex justify-content-between align-items-center p-3">
+  <span *ngIf="auth.usuario$ | async as usuario">Sesión de {{ usuario.nombre }}</span>
+  <button type="button" class="btn btn-outline-secondary" (click)="auth.logout()">Cerrar sesión</button>
+</header>
 <div class="row">
 
   <div class="col-md-4">

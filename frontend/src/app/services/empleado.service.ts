@@ -15,6 +15,7 @@ import {
 } from '../models/empleado';
 
 import { ApiResponse } from '../models/api-response';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,11 @@ import { ApiResponse } from '../models/api-response';
 export class EmpleadoService {
 
   private readonly URL_API =
-    'http://localhost:3000/api/v1/empleados';
+    `${environment.apiUrl}/empleados`;
+
+  limpiar(): void {
+    this.empleadosSubject.next([]);
+  }
 
   private readonly empleadosSubject =
     new BehaviorSubject<readonly Empleado[]>([]);

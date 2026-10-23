@@ -1,0 +1,13 @@
+:host { display: block; }
+.login-page { min-height: 85vh; display: grid; place-items: center; padding: 24px; background: #f3f6fa; }
+.login-card { width: 100%; max-width: 410px; padding: 32px; border: 1px solid #dbe2ec; border-radius: 16px; background: white; box-sizing: border-box; box-shadow: 0 12px 32px #1024420c; }
+h1 { margin: 8px 0 12px; color: #172b4d; font-size: 28px; }
+p, small { color: #526176; line-height: 1.5; }
+.eyebrow { font-size: 11px; letter-spacing: .12em; font-weight: 700; }
+label { display: block; margin: 18px 0 7px; font-weight: 600; color: #172b4d; }
+input { box-sizing: border-box; width: 100%; padding: 12px; border: 1px solid #a9b6c8; border-radius: 7px; font: inherit; }
+input:focus-visible, button:focus-visible { outline: 3px solid #81acff; outline-offset: 2px; }
+button { width: 100%; margin: 24px 0 18px; padding: 12px; border: 0; border-radius: 7px; background: #215ac7; color: white; font: inherit; cursor: pointer; }
+button:disabled { opacity: .6; cursor: default; }
+.error { color: #a21d29; }
+small { display: block; font-size: 12px; }
