@@ -13,7 +13,7 @@ module.exports = {
   deploy: {
     production: {
       user: 'ubuntu',
-      host: process.env.EC2_HOST || 'ec2-54-237-180-230.compute-1.amazonaws.com',
+      host: process.env.EC2_HOST || '34.236.215.254',
       ref: 'origin/main',
       repo: 'https://github.com/ImEcuadorian/empleados-mean.git',
       path: '/srv/empleados/pm2-source',

@@ -82,13 +82,13 @@ El script `deploy/test-resilience.sh` automatiza esta prueba e instala un trap p
 volver a iniciar la API si falla el script. Produce una interrupción intencionada;
 ejecútalo únicamente cuando quieras repetir la demostración.
 
-## Pendiente de red
+## IP elástica
 
-La Elastic IP proporcionada inicialmente, `77.112.70.95`, corresponde a una
-asignación de Ohio (`us-east-2`) y no permite conectar con el servidor actual.
-La instancia funcional está en Virginia (`us-east-1`) y mantiene `54.237.180.230`.
-Antes de cambiar endpoints debe asociarse una Elastic IP a la instancia correcta
-y actualizar certificado, lista de Atlas, variable de GitHub y rewrite de Vercel.
+La IP elástica `34.236.215.254` está asociada a la instancia `i-03002778b4ae29dfd`
+en Virginia (`us-east-1`). Nginx, certificado, variable y host SSH de GitHub y
+rewrite de Vercel usan esa dirección. Atlas debe permitir `34.236.215.254/32`.
+La IP `77.112.70.95` se asignó antes en Ohio (`us-east-2`) y no se usa en el sitio;
+debe incluirse en la limpieza posterior.
 
 ## Entrega
 
