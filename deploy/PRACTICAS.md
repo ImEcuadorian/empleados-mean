@@ -19,8 +19,10 @@
 - Un repositorio con dos proyectos independientes: `backend/` y `frontend/`.
 - AWS sirve únicamente Express por Nginx HTTPS, con Node en loopback:3000.
 - Vercel sirve Angular y reenvía `/api/*` a AWS mediante `frontend/vercel.json`.
-- Se requiere crear/importar el proyecto de Vercel con raíz `frontend`, conectar
-  GitHub y confirmar su URL pública. Su integración Git despliega cada push.
+- Proyecto Vercel importado con raíz `frontend` y conectado a GitHub.
+  Frontend público: https://empleados-mean.vercel.app/login.
+  La URL larga de un despliegue puede pedir autenticación Vercel; para la entrega
+  debe usarse el dominio público de producción.
 - GitHub Actions prueba ambos proyectos y publica solo el backend en AWS.
 - PM2 en clúster, dos procesos para dos vCPU, arranque con systemd y logrotate
   (10 MB por log, siete rotaciones comprimidas).
@@ -63,7 +65,9 @@ como `DISCORD_WEBHOOK_URL` y en un secreto de GitHub Actions del mismo nombre.
 - Un job de GitHub Actions informa el resultado de las pruebas y el despliegue.
 - El monitor utiliza el bus oficial de PM2 y webhooks de Discord, como alternativa
   al módulo `pm2-notify` del ejemplo. Su ejecución es independiente del backend.
-- Sin la URL privada del webhook no se puede activar ni verificar la entrega.
+- Webhook configurado como secreto en AWS y GitHub. Entrega inicial y eventos
+  de parada y pérdida de salud verificados con una prueba controlada de 35 segundos.
+  La API se inicia de nuevo automáticamente al terminar la prueba.
 
 Para verificar alertas, con el monitor activo:
 
@@ -73,6 +77,18 @@ sudo -iu deploy pm2 stop empleados-api
 sudo -iu deploy pm2 start empleados-api
 sudo journalctl -u empleados-monitor -n 20 --no-pager
 ```
+
+El script `deploy/test-resilience.sh` automatiza esta prueba e instala un trap para
+volver a iniciar la API si falla el script. Produce una interrupción intencionada;
+ejecútalo únicamente cuando quieras repetir la demostración.
+
+## Pendiente de red
+
+La Elastic IP proporcionada inicialmente, `77.112.70.95`, corresponde a una
+asignación de Ohio (`us-east-2`) y no permite conectar con el servidor actual.
+La instancia funcional está en Virginia (`us-east-1`) y mantiene `54.237.180.230`.
+Antes de cambiar endpoints debe asociarse una Elastic IP a la instancia correcta
+y actualizar certificado, lista de Atlas, variable de GitHub y rewrite de Vercel.
 
 ## Entrega
 
