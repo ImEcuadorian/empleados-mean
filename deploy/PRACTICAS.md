@@ -37,9 +37,10 @@
 ### PM2 Deploy como alternativa manual
 
 El pipeline de producción usa artefactos probados y rollback. Para la demostración
-manual de la guía se incluye `pm2-deploy.config.cjs`. Antes de usarla, el usuario
-`ubuntu` necesita su llave de lectura de GitHub y permisos sobre
-`/srv/empleados/pm2-source`. Ejecutar desde la raíz, con PM2 instalado localmente:
+manual de la guía se incluye `pm2-deploy.config.cjs`. Usa HTTPS para clonar el
+repositorio público sin entregar otra llave privada al usuario `ubuntu`.
+Este usuario necesita permisos sobre `/srv/empleados/pm2-source`.
+Ejecutar desde la raíz, con PM2 instalado localmente:
 
 ```bash
 pm2 deploy deploy/pm2-deploy.config.cjs production setup

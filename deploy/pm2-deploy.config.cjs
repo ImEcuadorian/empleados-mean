@@ -15,7 +15,7 @@ module.exports = {
       user: 'ubuntu',
       host: process.env.EC2_HOST || 'ec2-54-237-180-230.compute-1.amazonaws.com',
       ref: 'origin/main',
-      repo: 'git@github.com:ImEcuadorian/empleados-mean.git',
+      repo: 'https://github.com/ImEcuadorian/empleados-mean.git',
       path: '/srv/empleados/pm2-source',
       key: process.env.EC2_SSH_KEY || `${require('node:os').homedir()}/.ssh/Ups-api.pem`,
       'post-deploy': 'cd backend && npm ci && npm run build && ln -sfn /srv/empleados/shared/backend.env .env && sudo -u deploy pm2 startOrReload ../deploy/pm2-deploy.config.cjs --env production && sudo -u deploy pm2 save'

@@ -1,5 +1,8 @@
 # Práctica 3 - Stack MEAN: Sistema de Gestión de Empleados
 
+Para las prácticas de JWT y despliegue separado AWS/Vercel, consulta
+[el detalle de requisitos y configuración](deploy/PRACTICAS.md).
+
 Implementación académica de un módulo CRUD de empleados utilizando **MongoDB, Express, Angular, Node.js y TypeScript**, desarrollada para la asignatura **Patrones de Diseño de APIs** de la Universidad Politécnica Salesiana.
 
 **Autor:** Hugo Mauricio Saldarriaga Morales  
@@ -255,7 +258,8 @@ http://localhost:4200
 ```
 
 Abre `/login` e ingresa con la cuenta creada. El JWT dura 15 minutos y se guarda
-solo en memoria: cerrar sesión, recargar o expirar el token requiere otro login.
+en localStorage para esta práctica: al recargar se verifica con la API antes de
+abrir la ruta protegida; cerrar sesión o expirar el token requiere otro login.
 El botón de cerrar sesión borra el token y los empleados del estado de Angular.
 Un token ya emitido puede seguir utilizándose fuera del navegador hasta vencer;
 el cierre de sesión no implementa una lista de revocación. Eliminar el usuario
