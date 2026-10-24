@@ -1,0 +1,130 @@
+.table-scroll {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+th {
+  background: #fafbfe;
+  padding: 14px 20px;
+  color: #8c96a8;
+  font-size: 9px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+}
+td {
+  padding: 19px 20px;
+  border-top: 1px solid #f0f3f8;
+  font-size: 11px;
+}
+tbody tr:hover {
+  background: #fbfcff;
+}
+.person {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  min-width: 150px;
+}
+.person strong {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+}
+.person small {
+  display: block;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.department {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 5px;
+  background: #f1f4fa;
+  color: #73809a;
+  font-size: 9px;
+}
+.salary {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  font-weight: 500;
+}
+.delete-button {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: white;
+  color: #9ba6b8;
+}
+.delete-button:hover {
+  color: var(--danger);
+  background: #fff3f5;
+  border-color: #f2d6dc;
+}
+.delete-button .icon {
+  width: 15px;
+  height: 15px;
+}
+.empty-state {
+  padding: 75px 20px 80px;
+  text-align: center;
+}
+.empty-icon {
+  display: grid;
+  place-items: center;
+  width: 68px;
+  height: 68px;
+  border-radius: 22px;
+  background: #f0f3fc;
+  color: #8c9dcc;
+  margin: 0 auto 24px;
+  box-shadow: 0 0 0 11px #f9faff;
+}
+.empty-icon svg {
+  width: 30px;
+  height: 30px;
+}
+.empty-state h3 {
+  font-size: 16px;
+  letter-spacing: -0.4px;
+  margin-bottom: 10px;
+}
+.empty-state p {
+  font-size: 11px;
+  color: #929cb0;
+  line-height: 1.9;
+}
+.empty-tag {
+  display: inline-block;
+  margin-top: 30px;
+  font-size: 9px;
+  color: #99a7c3;
+  letter-spacing: 0.4px;
+}
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+@media (max-width: 700px) {
+  th,
+  td {
+    padding: 14px;
+  }
+  .empty-state {
+    padding: 55px 18px 60px;
+  }
+  .person {
+    min-width: 145px;
+  }
+}

@@ -1,73 +1,75 @@
-<div class="table-responsive">
-
-  <table class="table table-striped">
-
+<div class="table-scroll" *ngIf="empleados.length; else vacio">
+  <table>
     <thead>
-
-    <tr>
-      <th>Nombre</th>
-      <th>Cargo</th>
-      <th>Departamento</th>
-      <th>Sueldo</th>
-      <th>Operaciones</th>
-    </tr>
-
+      <tr>
+        <th>Empleado</th>
+        <th>Departamento</th>
+        <th>Sueldo</th>
+        <th><span class="sr-only">Acciones</span></th>
+      </tr>
     </thead>
-
     <tbody>
-
-    <tr
-      *ngFor="
-          let empleado of empleados;
-          trackBy: trackByEmpleadoId
-        "
-    >
-
-      <td>
-        {{ empleado.nombre }}
-      </td>
-
-      <td>
-        {{ empleado.cargo }}
-      </td>
-
-      <td>
-        {{ empleado.departamento }}
-      </td>
-
-      <td>
-        {{ empleado.sueldo }}
-      </td>
-
-      <td>
-
-        <button
-          type="button"
-          class="btn btn-danger"
-          (click)="onEliminar(
-              empleado.id
-            )"
-        >
-          Eliminar
-        </button>
-
-      </td>
-
-    </tr>
-
-    <tr *ngIf="empleados.length === 0">
-
-      <td
-        colspan="5"
-        class="text-center"
-      >
-        No existen empleados registrados.
-      </td>
-
-    </tr>
-
+      <tr *ngFor="let empleado of empleados; trackBy: trackByEmpleadoId">
+        <td>
+          <div class="person">
+            <span class="avatar" aria-hidden="true">{{
+              empleado.nombre.charAt(0) | uppercase
+            }}</span>
+            <div>
+              <strong>{{ empleado.nombre }}</strong
+              ><small>{{ empleado.cargo }}</small>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span class="department">{{ empleado.departamento }}</span>
+        </td>
+        <td class="salary">
+          {{ empleado.sueldo | currency: "USD" : "symbol" : "1.2-2" }}
+        </td>
+        <td>
+          <button
+            type="button"
+            class="delete-button"
+            (click)="onEliminar(empleado.id)"
+            [attr.aria-label]="'Eliminar a ' + empleado.nombre"
+            title="Eliminar empleado"
+          >
+            <svg
+              class="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <path d="M3 6h18M9 6V3h6v3M5 6l1 15h12l1-15M10 10v7m4-7v7" />
+            </svg>
+          </button>
+        </td>
+      </tr>
     </tbody>
-
   </table>
-
 </div>
+<ng-template #vacio
+  ><div class="empty-state">
+    <span class="empty-icon" aria-hidden="true"
+      ><svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.2"
+      >
+        <circle cx="9" cy="8" r="3" />
+        <path
+          d="M3 20v-2a6 6 0 0 1 12 0v2M16 5a3 3 0 0 1 0 6m2 3a5 5 0 0 1 3 4v2"
+        /></svg
+    ></span>
+    <h3>El comienzo de un gran equipo</h3>
+    <p>
+      Todavía no hay empleados registrados.<br />Agrega a tu primera persona con
+      el formulario.
+    </p>
+    <span class="empty-tag">Todo empieza con alguien.</span>
+  </div></ng-template
+>

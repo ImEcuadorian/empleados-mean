@@ -5,7 +5,7 @@ export interface LoginCredentials { email: string; password: string; }
 @Component({
   selector: 'app-login-form',
   templateUrl: './login-form.component.html',
-  styleUrl: '../login/login.component.css'
+  styleUrl: './login-form.component.css'
 })
 export class LoginFormComponent {
   @Input() loading = false;

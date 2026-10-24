@@ -1,0 +1,36 @@
+.form-eyebrow {
+  display: block;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  color: var(--accent);
+  margin-bottom: 9px;
+}
+form {
+  display: grid;
+  gap: 19px;
+  padding: 24px 26px;
+}
+.field label {
+  display: flex;
+  justify-content: space-between;
+}
+.field label span {
+  font-size: 10px;
+  font-weight: 400;
+  color: var(--muted);
+}
+.button {
+  width: 100%;
+  margin-top: 3px;
+}
+.button > span {
+  font-size: 19px;
+  line-height: 1;
+}
+.form-note {
+  text-align: center;
+  font-size: 9px;
+  color: #939dae;
+  margin-top: -7px;
+}

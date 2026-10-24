@@ -1,1 +1,315 @@
-/* You can add global styles to this file, and also import other style files */
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap");
+:root {
+  --ink: #18243d;
+  --muted: #748096;
+  --line: #e8edf5;
+  --accent: #4568ef;
+  --canvas: #f6f8fc;
+  --surface: #fff;
+  --navy: #14233f;
+  --danger: #c44b59;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: "DM Sans", system-ui, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+h1,
+h2,
+h3 {
+  font-family: "Manrope", system-ui, sans-serif;
+}
+button,
+input {
+  font: inherit;
+}
+button,
+a,
+input {
+  -webkit-tap-highlight-color: transparent;
+}
+button {
+  cursor: pointer;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 3px solid #9fb6ff;
+  outline-offset: 4px;
+}
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  font-family: "Manrope", sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+.brand-mark {
+  display: grid;
+  grid-template-columns: repeat(2, 8px);
+  gap: 4px;
+  padding: 10px;
+  border-radius: 12px;
+  background: var(--accent);
+}
+.brand-mark i {
+  width: 8px;
+  height: 8px;
+  border-radius: 3px;
+  background: white;
+}
+.brand-mark i:last-child {
+  opacity: 0.45;
+}
+.eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.8px;
+  text-transform: uppercase;
+}
+.muted {
+  color: var(--muted);
+}
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  box-shadow: 0 4px 20px #25365403;
+  overflow: hidden;
+}
+.panel-heading {
+  padding: 24px 26px 20px;
+  border-bottom: 1px solid var(--line);
+}
+.panel-heading h2 {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+}
+.panel-heading p {
+  color: var(--muted);
+  font-size: 12px;
+  margin-top: 5px;
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.field label {
+  font-size: 12px;
+  font-weight: 700;
+  color: #435069;
+}
+.field input {
+  width: 100%;
+  height: 46px;
+  border: 1px solid #dfe5ef;
+  border-radius: 9px;
+  padding: 0 14px;
+  background: #fff;
+  color: var(--ink);
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.field input::placeholder {
+  color: #a5aebd;
+  font-size: 12px;
+}
+.field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px #4568ef13;
+}
+.field input:disabled {
+  background: var(--canvas);
+}
+.field input.ng-invalid.ng-touched {
+  border-color: var(--danger);
+}
+.field-hint {
+  font-size: 11px;
+  color: var(--muted);
+}
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 12px 18px;
+  min-height: 44px;
+  border: 0;
+  border-radius: 9px;
+  font-size: 12px;
+  font-weight: 700;
+  transition:
+    background 0.15s,
+    transform 0.15s;
+}
+.button:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+.button-primary {
+  background: var(--accent);
+  color: white;
+  box-shadow: 0 4px 10px #4568ef20;
+}
+.button-primary:hover:not(:disabled) {
+  background: #3555d1;
+}
+.button-outline {
+  background: transparent;
+  border: 1px solid var(--line);
+  color: #5b6780;
+}
+.icon {
+  width: 19px;
+  height: 19px;
+  flex-shrink: 0;
+}
+.avatar {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 11px;
+  background: #edf1ff;
+  color: #5671cb;
+  font-size: 13px;
+  font-weight: 700;
+}
+.notice {
+  padding: 13px 18px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+.notice-error {
+  color: #a33645;
+  background: #fff0f2;
+  border: 1px solid #f7dce0;
+}
+.notice-success {
+  color: #277259;
+  background: #edf8f3;
+  border: 1px solid #d5eee2;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+.sidebar {
+  width: 222px;
+  flex-shrink: 0;
+  background: var(--navy);
+  color: #fff;
+  padding: 34px 23px 24px;
+  display: flex;
+  flex-direction: column;
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+}
+.workspace .brand {
+  font-size: 27px;
+}
+.workspace .brand-dot {
+  color: #91a5ff;
+  margin-left: -10px;
+}
+.navigation {
+  margin-top: 60px;
+}
+.navigation > .eyebrow {
+  font-size: 8px;
+  color: #8fa0bd;
+  letter-spacing: 1.3px;
+  margin: 0 10px 15px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #ffffff10;
+  padding: 13px;
+  border-radius: 9px;
+  color: #dfe6ff;
+  font-size: 12px;
+}
+.nav-dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #8fa8ff;
+  margin-left: auto;
+}
+.sidebar-bottom {
+  margin-top: auto;
+}
+.user {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+  border-top: 1px solid #ffffff12;
+  padding: 22px 4px 18px;
+}
+.user-avatar {
+  display: grid;
+  place-items: center;
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background: #d2dcff;
+  color: #3f568b;
+  font-size: 12px;
+  font-weight: 700;
+}
+.user strong {
+  font-size: 12px;
+  font-weight: 500;
+}
+.user small {
+  display: block;
+  color: #8fa0bd;
+  font-size: 10px;
+  margin-top: 2px;
+}
+.logout {
+  background: none;
+  border: 0;
+  color: #aab8ce;
+  font-size: 11px;
+  padding: 6px;
+}
+.logout span {
+  margin-right: 10px;
+}

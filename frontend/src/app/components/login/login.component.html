@@ -1,10 +1,67 @@
-<main class="login-page">
-  <section class="login-card" aria-labelledby="login-title">
-    <p class="eyebrow">GESTIÓN DE EMPLEADOS</p>
-    <h1 id="login-title">Iniciar sesión</h1>
-    <p>Ingresa con tu cuenta para administrar los empleados.</p>
-    <p *ngIf="error" role="alert" class="error">{{ error }}</p>
-    <app-login-form [loading]="loading" (submitLogin)="iniciarSesion($event)"></app-login-form>
-    <small>La sesión dura 15 minutos. Al recargar verificamos su validez con el servidor.</small>
+<main class="login-layout">
+  <section class="welcome-panel" aria-labelledby="welcome-title">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"
+        ><i></i><i></i><i></i><i></i></span
+      >equipo<span class="brand-dot">.</span>
+    </div>
+    <div class="welcome-copy">
+      <p class="eyebrow">PERSONAS QUE HACEN LA DIFERENCIA</p>
+      <h2 id="welcome-title">Un gran equipo.<br />Un solo lugar.</h2>
+      <p>
+        Menos tiempo en la administración.<br />Más espacio para las personas.
+      </p>
+      <div class="team-art" aria-hidden="true">
+        <div class="orbit orbit-one"></div>
+        <div class="orbit orbit-two"></div>
+        <div class="team-card">
+          <span class="art-icon">✦</span>
+          <div>
+            <strong>El talento nos conecta</strong
+            ><small>Cada persona cuenta.</small>
+          </div>
+          <span class="art-check">✓</span>
+        </div>
+        <div class="people-stack">
+          <span>A</span><span>M</span><span>J</span><span>+</span
+          ><small>Crecer, juntos.</small>
+        </div>
+      </div>
+    </div>
+    <footer>GESTIÓN DE EMPLEADOS <span>Hecho para tu equipo.</span></footer>
+  </section>
+  <section class="access-panel" aria-labelledby="login-title">
+    <div class="access-card">
+      <div class="access-icon" aria-hidden="true">
+        <svg
+          class="icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.7"
+        >
+          <rect x="5" y="10" width="14" height="11" rx="3" />
+          <path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" />
+        </svg>
+      </div>
+      <p class="eyebrow muted">TU ESPACIO DE TRABAJO</p>
+      <h1 id="login-title">Bienvenido de nuevo</h1>
+      <p class="access-description">
+        Inicia sesión para gestionar a las personas<br />
+        que forman parte de tu equipo.
+      </p>
+      <p *ngIf="error" role="alert" class="notice notice-error">{{ error }}</p>
+      <app-login-form
+        [loading]="loading"
+        (submitLogin)="iniciarSesion($event)"
+      ></app-login-form>
+      <div class="access-note">
+        <span aria-hidden="true">◇</span> Acceso exclusivo para usuarios
+        autorizados.
+      </div>
+    </div>
+    <p class="session-note">
+      Tu sesión se cierra automáticamente después de 15 minutos.
+    </p>
   </section>
 </main>

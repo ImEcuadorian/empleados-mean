@@ -1,99 +1,64 @@
-<div class="card">
-
-  <div class="card-body">
-
-    <h2>
-      Registro de Nuevo Empleado
-    </h2>
-
-    <form
-      #empleadoForm="ngForm"
-      (ngSubmit)="onSubmit(empleadoForm)"
-    >
-
-      <div class="form-group">
-
-        <label for="nombre">
-          Nombre
-        </label>
-
-        <input
-          id="nombre"
-          type="text"
-          class="form-control"
-          name="nombre"
-          placeholder="Ingrese su nombre"
-          [(ngModel)]="empleado.nombre"
-          required
-        >
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="cargo">
-          Cargo
-        </label>
-
-        <input
-          id="cargo"
-          type="text"
-          class="form-control"
-          name="cargo"
-          placeholder="Ingrese su cargo"
-          [(ngModel)]="empleado.cargo"
-          required
-        >
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="departamento">
-          Departamento
-        </label>
-
-        <input
-          id="departamento"
-          type="text"
-          class="form-control"
-          name="departamento"
-          placeholder="Ingrese su departamento"
-          [(ngModel)]="empleado.departamento"
-          required
-        >
-
-      </div>
-
-      <div class="form-group">
-
-        <label for="sueldo">
-          Sueldo
-        </label>
-
-        <input
-          id="sueldo"
-          type="number"
-          class="form-control"
-          name="sueldo"
-          placeholder="Ingrese su sueldo"
-          [(ngModel)]="empleado.sueldo"
-          min="0"
-          required
-        >
-
-      </div>
-
-      <button
-        type="submit"
-        class="btn btn-primary"
-        [disabled]="empleadoForm.invalid"
-      >
-        Crear
-      </button>
-
-    </form>
-
+<section class="panel">
+  <div class="panel-heading">
+    <span class="form-eyebrow">SUMA TALENTO</span>
+    <h2>Nuevo empleado</h2>
+    <p>El próximo gran aporte a tu equipo.</p>
   </div>
-
-</div>
+  <form #empleadoForm="ngForm" (ngSubmit)="onSubmit(empleadoForm)">
+    <div class="field">
+      <label for="nombre">Nombre completo</label
+      ><input
+        id="nombre"
+        name="nombre"
+        type="text"
+        placeholder="Ej. Ana Torres"
+        [(ngModel)]="empleado.nombre"
+        required
+        autocomplete="name"
+      />
+    </div>
+    <div class="field">
+      <label for="cargo">Cargo</label
+      ><input
+        id="cargo"
+        name="cargo"
+        type="text"
+        placeholder="Ej. Analista de talento"
+        [(ngModel)]="empleado.cargo"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="departamento">Departamento</label
+      ><input
+        id="departamento"
+        name="departamento"
+        type="text"
+        placeholder="Ej. Recursos humanos"
+        [(ngModel)]="empleado.departamento"
+        required
+      />
+    </div>
+    <div class="field">
+      <label for="sueldo">Sueldo <span>USD</span></label
+      ><input
+        id="sueldo"
+        name="sueldo"
+        type="number"
+        placeholder="0.00"
+        [(ngModel)]="empleado.sueldo"
+        min="0"
+        step="0.01"
+        required
+      /><small class="field-hint">Valor expresado en dólares.</small>
+    </div>
+    <button
+      class="button button-primary"
+      type="submit"
+      [disabled]="empleadoForm.invalid"
+    >
+      <span aria-hidden="true">＋</span> Agregar al equipo
+    </button>
+    <p class="form-note">Completa todos los campos para guardar.</p>
+  </form>
+</section>
