@@ -25,6 +25,10 @@ app.use(express.json({ limit: '16kb' }));
 
 app.use(morgan('dev'));
 
+app.get('/', (_req, res) => {
+    res.json({ servicio: 'Empleados API', health: '/api/v1/health', autenticacion: '/api/v1/auth/login' });
+});
+
 app.get('/api/v1/health', (_req, res) => {
     const ready = mongoose.connection.readyState === 1;
     res.status(ready ? 200 : 503).json({ success: ready });

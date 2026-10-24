@@ -1,0 +1,17 @@
+[Unit]
+Description=Empleados API - Discord alerts and health monitoring
+After=network-online.target pm2-deploy.service
+Wants=network-online.target
+
+[Service]
+User=deploy
+WorkingDirectory=/srv/empleados/bin
+Environment=PM2_HOME=/home/deploy/.pm2
+ExecStart=/usr/local/bin/node /srv/empleados/bin/monitor.cjs
+Restart=always
+RestartSec=5
+NoNewPrivileges=true
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target

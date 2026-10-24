@@ -1,5 +1,10 @@
 # AWS EC2: Nginx + PM2 + GitHub Actions
 
+**Actualización de las prácticas:** el frontend se publica por separado en Vercel;
+AWS ejecuta solo el backend. Consulta [PRACTICAS.md](PRACTICAS.md) para el estado,
+los requisitos, Discord y la alternativa manual PM2 Deploy. Las referencias al
+frontend estático en AWS que siguen describen el despliegue inicial.
+
 La aplicación se publica en una instancia Ubuntu. Nginx sirve el resultado estático
 de Angular y envía `/api/` al backend Node.js, que escucha solo en `127.0.0.1:3000`.
 PM2 mantiene el proceso activo y systemd lo restaura tras reiniciar EC2.

@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import {
-  BrowserModule,
-  provideClientHydration
+  BrowserModule
 } from '@angular/platform-browser';
 
 import {
@@ -18,6 +17,7 @@ import { EmpleadoComponent } from './components/empleado/empleado.component';
 import { EmpleadoFormComponent } from './components/empleado-form/empleado-form.component';
 import { EmpleadoListComponent } from './components/empleado-list/empleado-list.component';
 import { LoginComponent } from './components/login/login.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
 import { authInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
@@ -26,7 +26,8 @@ import { authInterceptor } from './interceptors/auth.interceptor';
     EmpleadoComponent,
     EmpleadoFormComponent,
     EmpleadoListComponent,
-    LoginComponent
+    LoginComponent,
+    LoginFormComponent
   ],
 
   imports: [
@@ -36,7 +37,6 @@ import { authInterceptor } from './interceptors/auth.interceptor';
   ],
 
   providers: [
-    provideClientHydration(),
     provideHttpClient(withFetch(), withInterceptors([authInterceptor]))
   ],
 

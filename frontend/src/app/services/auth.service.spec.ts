@@ -22,7 +22,7 @@ describe('Sesión JWT e interceptor', () => {
     http = TestBed.inject(HttpTestingController);
     empleados = TestBed.inject(EmpleadoService);
   });
-  afterEach(() => { auth.ngOnDestroy(); http.verify(); });
+  afterEach(() => { auth.logout(); auth.ngOnDestroy(); http.verify(); });
 
   function login(): void {
     auth.login('test@example.com', 'test-password').subscribe();
@@ -62,4 +62,15 @@ describe('Sesión JWT e interceptor', () => {
     tick(900000);
     expect(auth.accessToken).toBeNull();
   }));
+
+  it('verifica con la API el token restaurado antes de permitir el acceso', () => {
+    localStorage.setItem('empleados_session', JSON.stringify({ token: 'saved-token', expiresAt: Date.now() + 60000 }));
+    let valid = false;
+    auth.ensureSession().subscribe(result => { valid = result; });
+    expect(valid).toBeFalse();
+    const req = http.expectOne(`${environment.apiUrl}/auth/me`);
+    expect(req.request.headers.get('Authorization')).toBe('Bearer saved-token');
+    req.flush({ success: true, data: { id: '1', nombre: 'Test', email: 'test@example.com' } });
+    expect(valid).toBeTrue();
+  });
 });

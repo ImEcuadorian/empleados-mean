@@ -6,6 +6,8 @@ import { EmpleadoComponent } from './components/empleado/empleado.component';
 import { authGuard } from './guards/auth.guard';
 
 const routes: Routes = [
+  { path: 'auth', redirectTo: 'login', pathMatch: 'full' },
+  { path: 'employees', redirectTo: 'empleados', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'empleados', component: EmpleadoComponent, canActivate: [authGuard] },
   { path: '', redirectTo: 'empleados', pathMatch: 'full' },

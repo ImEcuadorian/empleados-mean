@@ -10,7 +10,6 @@ release="$base/releases/$sha-$(date +%s%N)"
 mkdir -m 755 "$release"
 tar -xzf - --no-same-owner -C "$release"
 test -f "$release/backend/dist/index.js"
-test -f "$release/frontend/index.html"
 test -f "$base/shared/backend.env"
 ln -s "$base/shared/backend.env" "$release/backend/.env"
 cd "$release/backend"
@@ -22,7 +21,7 @@ if [[ -L "$base/current" ]]; then
 fi
 ln -s "$release" "$base/current.next"
 mv -Tf "$base/current.next" "$base/current"
-pm2 startOrRestart "$release/ecosystem.config.cjs" --update-env
+pm2 startOrReload "$release/ecosystem.config.cjs" --update-env
 healthy=false
 for attempt in $(seq 1 30); do
   if curl --fail --silent --max-time 3 http://127.0.0.1:3000/api/v1/health >/dev/null; then

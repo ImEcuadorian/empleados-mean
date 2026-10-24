@@ -47,10 +47,9 @@ jobs:
         working-directory: frontend
       - name: Package release without credentials
         run: |
-          mkdir -p release/backend release/frontend
+          mkdir -p release/backend
           cp -r backend/dist release/backend/dist
           cp backend/package.json backend/package-lock.json release/backend/
-          cp -r frontend/dist/frontend/browser/. release/frontend/
           cp deploy/ecosystem.config.cjs release/
           tar -czf release.tar.gz -C release .
       - uses: actions/upload-artifact@v4
@@ -82,3 +81,22 @@ jobs:
           chmod 600 ~/.ssh/deploy_key ~/.ssh/known_hosts
           ssh -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=20 \
             -i ~/.ssh/deploy_key "deploy@$DEPLOY_HOST" "deploy $COMMIT_SHA" < release.tar.gz
+
+  notify:
+    if: always() && github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: [test-and-build, deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Notify Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          BUILD_RESULT: ${{ needs.test-and-build.result }}
+          DEPLOY_RESULT: ${{ needs.deploy.result }}
+          RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: node deploy/notify-discord.cjs "CI/CD empleados · pruebas $BUILD_RESULT · AWS $DEPLOY_RESULT · $RUN_URL"

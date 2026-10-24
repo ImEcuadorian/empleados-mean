@@ -3,18 +3,8 @@
     <p class="eyebrow">GESTIÓN DE EMPLEADOS</p>
     <h1 id="login-title">Iniciar sesión</h1>
     <p>Ingresa con tu cuenta para administrar los empleados.</p>
-    <form #loginForm="ngForm" (ngSubmit)="iniciarSesion()">
-      <label for="email">Correo electrónico</label>
-      <input id="email" name="email" type="email" [(ngModel)]="email"
-        required email maxlength="254" autocomplete="username" [disabled]="loading">
-      <label for="password">Contraseña</label>
-      <input id="password" name="password" type="password" [(ngModel)]="password"
-        required autocomplete="current-password" [disabled]="loading">
-      <p *ngIf="error" role="alert" class="error">{{ error }}</p>
-      <button type="submit" [disabled]="loginForm.invalid || loading">
-        {{ loading ? 'Ingresando…' : 'Ingresar' }}
-      </button>
-    </form>
-    <small>Por seguridad, al recargar la página deberás volver a iniciar sesión.</small>
+    <p *ngIf="error" role="alert" class="error">{{ error }}</p>
+    <app-login-form [loading]="loading" (submitLogin)="iniciarSesion($event)"></app-login-form>
+    <small>La sesión dura 15 minutos. Al recargar verificamos su validez con el servidor.</small>
   </section>
 </main>
