@@ -42,7 +42,8 @@ El pipeline de producción usa artefactos probados y rollback. Para la demostrac
 manual de la guía se incluye `pm2-deploy.config.cjs`. Usa HTTPS para clonar el
 repositorio público sin entregar otra llave privada al usuario `ubuntu`.
 Este usuario necesita permisos sobre `/srv/empleados/pm2-source`.
-Ejecutar desde la raíz, con PM2 instalado localmente:
+Ejecutar desde la raíz, con PM2 instalado localmente (en Windows, Git Bash debe
+estar en PATH). Primero espera a que GitHub Actions haya publicado el mismo commit:
 
 ```bash
 pm2 deploy deploy/pm2-deploy.config.cjs production setup
@@ -50,8 +51,10 @@ pm2 deploy deploy/pm2-deploy.config.cjs production
 ```
 
 No ejecutes ambas rutas de despliegue simultáneamente: las dos administran la misma
-aplicación PM2. La alternativa manual queda preparada para la demostración;
-no reemplaza el pipeline habitual ni se ha ejecutado como segundo despliegue.
+aplicación PM2. La ruta manual reutiliza el artefacto compilado y probado por CI
+del mismo commit y solo instala dependencias de producción. La instancia tiene
+1 GB de RAM: compilar TypeScript en ella provocó una saturación de memoria durante
+la comprobación, por lo que la compilación se mantiene en GitHub Actions.
 
 ## Discord
 
