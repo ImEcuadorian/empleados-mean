@@ -128,3 +128,27 @@ tbody tr:hover {
     min-width: 145px;
   }
 }
+.actions-cell {
+  white-space: nowrap;
+}
+.actions-cell > button {
+  display: inline-grid;
+  vertical-align: middle;
+}
+.edit-button {
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  margin-right: 7px;
+  border: 1px solid #dce4ff;
+  border-radius: 7px;
+  background: #f5f7ff;
+  color: var(--accent);
+}
+.edit-button:hover:not(:disabled) {
+  background: #eaf0ff;
+}
+.edit-button .icon {
+  width: 15px;
+  height: 15px;
+}

@@ -265,12 +265,19 @@ Un token ya emitido puede seguir utilizándose fuera del navegador hasta vencer;
 el cierre de sesión no implementa una lista de revocación. Eliminar el usuario
 en MongoDB bloquea sus tokens en la siguiente petición.
 
+El inicio y `/directorio` muestran la lista pública sin iniciar sesión. Desde
+«Administrar empleados» se entra a `/empleados`, que exige autenticación. Allí
+puedes crear, editar y eliminar. El lápiz de cada fila precarga el formulario;
+«Guardar cambios» envía PUT y «Cancelar edición» descarta el borrador.
+Los GET de empleados son públicos; POST, PUT y DELETE requieren JWT válido.
+
 ### Autenticación de la API
 
 - `POST /api/v1/auth/login`: recibe `{ "email": "...", "password": "..." }`.
   Responde con `data.token`, `data.expiresIn` y `data.usuario`.
 - `GET /api/v1/auth/me`: consulta los datos públicos del usuario autenticado.
-- Todas las rutas de empleados requieren `Authorization: Bearer <token>`.
+- POST, PUT y DELETE de empleados requieren `Authorization: Bearer <token>`;
+  las consultas GET son públicas.
 - Se verifican firma HS256, emisor, audiencia, expiración y existencia del usuario.
 - El login limita a 10 intentos fallidos por IP cada 15 minutos. El contador es
   local al proceso y se reinicia con el servidor.

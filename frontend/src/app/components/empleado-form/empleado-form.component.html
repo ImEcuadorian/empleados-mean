@@ -1,8 +1,16 @@
 <section class="panel">
   <div class="panel-heading">
-    <span class="form-eyebrow">SUMA TALENTO</span>
-    <h2>Nuevo empleado</h2>
-    <p>El próximo gran aporte a tu equipo.</p>
+    <span class="form-eyebrow">{{
+      seleccionado ? "MANTÉN TU EQUIPO AL DÍA" : "SUMA TALENTO"
+    }}</span>
+    <h2>{{ seleccionado ? "Editar empleado" : "Nuevo empleado" }}</h2>
+    <p>
+      {{
+        seleccionado
+          ? "Actualiza los datos y guarda los cambios."
+          : "El próximo gran aporte a tu equipo."
+      }}
+    </p>
   </div>
   <form #empleadoForm="ngForm" (ngSubmit)="onSubmit(empleadoForm)">
     <div class="field">
@@ -13,6 +21,9 @@
         type="text"
         placeholder="Ej. Ana Torres"
         [(ngModel)]="empleado.nombre"
+        [disabled]="guardando"
+        minlength="2"
+        maxlength="100"
         required
         autocomplete="name"
       />
@@ -25,6 +36,9 @@
         type="text"
         placeholder="Ej. Analista de talento"
         [(ngModel)]="empleado.cargo"
+        [disabled]="guardando"
+        minlength="2"
+        maxlength="100"
         required
       />
     </div>
@@ -36,6 +50,9 @@
         type="text"
         placeholder="Ej. Recursos humanos"
         [(ngModel)]="empleado.departamento"
+        [disabled]="guardando"
+        minlength="2"
+        maxlength="100"
         required
       />
     </div>
@@ -47,6 +64,7 @@
         type="number"
         placeholder="0.00"
         [(ngModel)]="empleado.sueldo"
+        [disabled]="guardando"
         min="0"
         step="0.01"
         required
@@ -55,9 +73,24 @@
     <button
       class="button button-primary"
       type="submit"
-      [disabled]="empleadoForm.invalid"
+      [disabled]="empleadoForm.invalid || guardando"
     >
-      <span aria-hidden="true">＋</span> Agregar al equipo
+      {{
+        guardando
+          ? "Guardando…"
+          : seleccionado
+            ? "Guardar cambios"
+            : "Agregar al equipo"
+      }}
+    </button>
+    <button
+      *ngIf="seleccionado"
+      class="button button-outline"
+      type="button"
+      [disabled]="guardando"
+      (click)="cancelar.emit()"
+    >
+      Cancelar edición
     </button>
     <p class="form-note">Completa todos los campos para guardar.</p>
   </form>

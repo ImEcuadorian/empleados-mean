@@ -4,7 +4,6 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import mongoose from 'mongoose';
 import authRoutes from './routes/auth.routes';
-import { authMiddleware } from './middlewares/auth.middleware';
 
 import {
     errorHandler,
@@ -38,7 +37,6 @@ app.use('/api/v1/auth', authRoutes);
 
 app.use(
     '/api/v1',
-    authMiddleware,
     empleadosRoutes
 );
 

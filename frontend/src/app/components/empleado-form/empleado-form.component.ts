@@ -2,57 +2,55 @@ import {
   ChangeDetectionStrategy,
   Component,
   EventEmitter,
-  Output
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+  ViewChild,
 } from '@angular/core';
-
 import { NgForm } from '@angular/forms';
-
-import {
-  NuevoEmpleado
-} from '../../models/empleado';
+import { Empleado, NuevoEmpleado } from '../../models/empleado';
 
 @Component({
   selector: 'app-empleado-form',
   templateUrl: './empleado-form.component.html',
   styleUrl: './empleado-form.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EmpleadoFormComponent {
+export class EmpleadoFormComponent implements OnChanges {
+  @Input() seleccionado: Empleado | null = null;
+  @Input() guardando = false;
+  @Input() version = 0;
+  @Output() readonly guardar = new EventEmitter<NuevoEmpleado>();
+  @Output() readonly cancelar = new EventEmitter<void>();
+  @ViewChild('empleadoForm') private formulario?: NgForm;
+  empleado: NuevoEmpleado = this.vacio();
 
-  @Output()
-  readonly crear =
-    new EventEmitter<NuevoEmpleado>();
+  ngOnChanges(changes: SimpleChanges): void {
+    if (!changes['seleccionado'] && !changes['version']) return;
+    const elegido = this.seleccionado;
+    this.empleado = elegido
+      ? {
+          nombre: elegido.nombre,
+          cargo: elegido.cargo,
+          departamento: elegido.departamento,
+          sueldo: elegido.sueldo,
+        }
+      : this.vacio();
+    this.formulario?.resetForm(this.empleado);
+  }
 
-  empleado: NuevoEmpleado = {
-    nombre: '',
-    cargo: '',
-    departamento: '',
-    sueldo: 0
-  };
-
-  onSubmit(
-    form: NgForm
-  ): void {
-
-    if (form.invalid) {
-      return;
-    }
-
-    /*
-     * El formulario NO llama al servicio.
-     *
-     * Solamente comunica hacia el padre
-     * mediante @Output().
-     */
-    this.crear.emit({
-      ...this.empleado
+  onSubmit(form: NgForm): void {
+    if (form.invalid || this.guardando) return;
+    this.guardar.emit({
+      ...this.empleado,
+      nombre: this.empleado.nombre.trim(),
+      cargo: this.empleado.cargo.trim(),
+      departamento: this.empleado.departamento.trim(),
     });
+  }
 
-    form.resetForm({
-      nombre: '',
-      cargo: '',
-      departamento: '',
-      sueldo: 0
-    });
+  private vacio(): NuevoEmpleado {
+    return { nombre: '', cargo: '', departamento: '', sueldo: 0 };
   }
 }

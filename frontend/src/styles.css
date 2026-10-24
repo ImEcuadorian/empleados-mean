@@ -313,3 +313,31 @@ button:disabled {
 .logout span {
   margin-right: 10px;
 }
+/* Public directory and employee editing controls. */
+.content-grid.read-only {
+  grid-template-columns: minmax(0, 1fr);
+}
+.public-note {
+  padding: 14px 18px;
+  background: #edf1ff;
+  border: 1px solid #dde5ff;
+  border-radius: 10px;
+  margin-bottom: 22px;
+  color: #687aab;
+  font-size: 12px;
+}
+.public-note a {
+  color: var(--accent);
+  font-weight: 700;
+}
+.workspace .logout {
+  display: block;
+  margin-bottom: 7px;
+}
+.public-directory-link {
+  display: block;
+  text-align: center;
+  color: var(--accent);
+  font-size: 12px;
+  margin-top: 20px;
+}

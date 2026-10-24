@@ -3,34 +3,31 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 
-import {
-  Empleado
-} from '../../models/empleado';
+import { Empleado } from '../../models/empleado';
 
 @Component({
   selector: 'app-empleado-list',
   templateUrl: './empleado-list.component.html',
   styleUrl: './empleado-list.component.css',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EmpleadoListComponent {
-
   @Input({
-    required: true
+    required: true,
   })
   empleados: readonly Empleado[] = [];
 
+  @Input() editable = false;
+  @Input() ocupado = false;
+  @Output() readonly editar = new EventEmitter<Empleado>();
+
   @Output()
-  readonly eliminar =
-    new EventEmitter<string>();
+  readonly eliminar = new EventEmitter<string>();
 
-  onEliminar(
-    id?: string
-  ): void {
-
+  onEliminar(id?: string): void {
     if (!id) {
       return;
     }
@@ -44,11 +41,7 @@ export class EmpleadoListComponent {
     this.eliminar.emit(id);
   }
 
-  trackByEmpleadoId(
-    _index: number,
-    empleado: Empleado
-  ): string {
-
+  trackByEmpleadoId(_index: number, empleado: Empleado): string {
     return empleado.id ?? '';
   }
 }

@@ -5,7 +5,7 @@
         <th>Empleado</th>
         <th>Departamento</th>
         <th>Sueldo</th>
-        <th><span class="sr-only">Acciones</span></th>
+        <th *ngIf="editable"><span class="sr-only">Acciones</span></th>
       </tr>
     </thead>
     <tbody>
@@ -27,10 +27,30 @@
         <td class="salary">
           {{ empleado.sueldo | currency: "USD" : "symbol" : "1.2-2" }}
         </td>
-        <td>
+        <td *ngIf="editable" class="actions-cell">
+          <button
+            type="button"
+            class="edit-button"
+            [disabled]="ocupado"
+            (click)="editar.emit(empleado)"
+            [attr.aria-label]="'Editar a ' + empleado.nombre"
+            title="Editar empleado"
+          >
+            <svg
+              class="icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.6"
+              aria-hidden="true"
+            >
+              <path d="m15 5 4 4M4 20l4-1L20 7a2.8 2.8 0 0 0-4-4L4 15z" />
+            </svg>
+          </button>
           <button
             type="button"
             class="delete-button"
+            [disabled]="ocupado"
             (click)="onEliminar(empleado.id)"
             [attr.aria-label]="'Eliminar a ' + empleado.nombre"
             title="Eliminar empleado"
@@ -67,8 +87,11 @@
     ></span>
     <h3>El comienzo de un gran equipo</h3>
     <p>
-      Todavía no hay empleados registrados.<br />Agrega a tu primera persona con
-      el formulario.
+      Todavía no hay empleados registrados.<br />{{
+        editable
+          ? "Agrega a tu primera persona con el formulario."
+          : "Aquí aparecerán las personas registradas en el equipo."
+      }}
     </p>
     <span class="empty-tag">Todo empieza con alguien.</span>
   </div></ng-template

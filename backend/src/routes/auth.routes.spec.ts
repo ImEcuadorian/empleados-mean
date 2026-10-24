@@ -12,6 +12,9 @@ const user = { id: '507f1f77bcf86cd799439011', nombre: 'Prueba', email: 'prueba@
 const findOne = jest.spyOn(Usuario, 'findOne');
 const findById = jest.spyOn(Usuario, 'findById');
 const employees = jest.spyOn(MongooseEmployeeRepository.prototype, 'findAll');
+const employeeById = jest.spyOn(MongooseEmployeeRepository.prototype, 'findById');
+const updateEmployee = jest.spyOn(MongooseEmployeeRepository.prototype, 'update');
+const employee = { id: '507f1f77bcf86cd799439012', nombre: 'Ana Torres', cargo: 'Analista', departamento: 'Talento', sueldo: 1000 };
 
 function token(options: jwt.SignOptions = {}, signingSecret = secret): string {
     return jwt.sign({}, signingSecret, { algorithm: 'HS256', subject: user.id,
@@ -23,6 +26,8 @@ beforeEach(() => {
     findOne.mockReturnValue({ select: jest.fn().mockResolvedValue(user) } as never);
     findById.mockResolvedValue(user as never);
     employees.mockResolvedValue([]);
+    employeeById.mockResolvedValue(employee);
+    updateEmployee.mockResolvedValue({ ...employee, sueldo: 1200 });
 });
 
 afterAll(() => jest.restoreAllMocks());
@@ -58,7 +63,30 @@ describe('Autenticación HTTP con firma JWT real', () => {
         expect(findOne).not.toHaveBeenCalled();
     });
 
-    it.each(['get', 'post', 'put', 'delete'] as const)('protege %s de empleados sin JWT', async method => {
+    it('permite consultar la lista sin JWT', async () => {
+        const response = await request(app).get('/api/v1/empleados').expect(200);
+        expect(response.body.data).toEqual([]);
+        expect(employees).toHaveBeenCalledTimes(1);
+        expect(findById).not.toHaveBeenCalled();
+    });
+
+    it('permite consultar un empleado por id sin JWT', async () => {
+        const response = await request(app).get(`/api/v1/empleados/${employee.id}`).expect(200);
+        expect(response.body.data).toEqual(employee);
+        expect(findById).not.toHaveBeenCalled();
+    });
+
+    it('actualiza un empleado con JWT válido y valida los cambios', async () => {
+        const response = await request(app).put(`/api/v1/empleados/${employee.id}`)
+            .set('Authorization', `Bearer ${token()}`).send({ sueldo: 1200 }).expect(200);
+        expect(response.body.data.sueldo).toBe(1200);
+        expect(updateEmployee).toHaveBeenCalledWith(employee.id, { sueldo: 1200 });
+        await request(app).put(`/api/v1/empleados/${employee.id}`)
+            .set('Authorization', `Bearer ${token()}`).send({ sueldo: -1 }).expect(400);
+        expect(updateEmployee).toHaveBeenCalledTimes(1);
+    });
+
+    it.each(['post', 'put', 'delete'] as const)('protege %s de empleados sin JWT', async method => {
         const path = method === 'put' || method === 'delete' ? '/api/v1/empleados/123' : '/api/v1/empleados';
         await request(app)[method](path).expect(401);
         expect(employees).not.toHaveBeenCalled();
@@ -71,7 +99,7 @@ describe('Autenticación HTTP con firma JWT real', () => {
         ['algoritmo incorrecto', () => token({ algorithm: 'HS384' })],
         ['mal formado', () => 'invalid.token']
     ])('rechaza JWT %s', async (_name, makeToken) => {
-        await request(app).get('/api/v1/empleados')
+        await request(app).put('/api/v1/empleados/507f1f77bcf86cd799439012')
             .set('Authorization', `Bearer ${makeToken()}`).expect(401);
         expect(findById).not.toHaveBeenCalled();
     });

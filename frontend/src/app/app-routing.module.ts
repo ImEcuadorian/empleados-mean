@@ -9,13 +9,14 @@ const routes: Routes = [
   { path: 'auth', redirectTo: 'login', pathMatch: 'full' },
   { path: 'employees', redirectTo: 'empleados', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'directorio', component: EmpleadoComponent, data: { publico: true } },
   { path: 'empleados', component: EmpleadoComponent, canActivate: [authGuard] },
-  { path: '', redirectTo: 'empleados', pathMatch: 'full' },
-  { path: '**', redirectTo: 'empleados' }
+  { path: '', redirectTo: 'directorio', pathMatch: 'full' },
+  { path: '**', redirectTo: 'directorio' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

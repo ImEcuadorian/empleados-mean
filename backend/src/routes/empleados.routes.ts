@@ -14,8 +14,14 @@ import { validateRequest }
 
 import { MongooseEmployeeRepository }
     from '../repositories/MongooseEmployeeRepository';
+import { authMiddleware } from '../middlewares/auth.middleware';
 
 const router = Router();
+// The directory is public, but should always reflect the latest employee changes.
+router.use((_req, res, next) => {
+    res.setHeader('Cache-Control', 'no-store');
+    next();
+});
 
 const repository =
     new MongooseEmployeeRepository();
@@ -40,6 +46,7 @@ router.get(
 
 router.post(
     '/empleados',
+    authMiddleware,
 
     validateRequest({
         body: createEmployeeSchema
@@ -50,6 +57,7 @@ router.post(
 
 router.put(
     '/empleados/:id',
+    authMiddleware,
 
     validateRequest({
         params: employeeIdParamsSchema,
@@ -61,6 +69,7 @@ router.put(
 
 router.delete(
     '/empleados/:id',
+    authMiddleware,
 
     validateRequest({
         params: employeeIdParamsSchema

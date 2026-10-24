@@ -8,6 +8,11 @@
 - Formulario de presentación `LoginFormComponent` y orquestador `LoginComponent`.
 - Servicio reactivo, interceptor y guard. `/auth` y `/employees` son alias de las
   rutas españolas. El acceso directo a empleados exige una sesión válida.
+- Consulta pública en `/directorio`, también accesible desde el login. Los GET de
+  `/api/v1/empleados` y `/api/v1/empleados/:id` son públicos. POST, PUT y DELETE
+  requieren JWT. `/empleados` sigue siendo la administración protegida.
+- La tabla privada permite editar: precarga el formulario, guarda mediante PUT,
+  actualiza el estado reactivo y permite cancelar. Si falla, conserva el borrador.
 - Sesión persistida en localStorage para esta práctica. Al recargar, el guard
   verifica el JWT con `/auth/me`; el contenido del almacenamiento no da permisos.
   localStorage puede ser leído por JavaScript: evita inyectar HTML no confiable.
