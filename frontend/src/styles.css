@@ -314,9 +314,7 @@ button:disabled {
   margin-right: 10px;
 }
 /* Public directory and employee editing controls. */
-.content-grid.read-only {
-  grid-template-columns: minmax(0, 1fr);
-}
+
 .public-note {
   padding: 14px 18px;
   background: #edf1ff;
@@ -341,3 +339,4 @@ button:disabled {
   font-size: 12px;
   margin-top: 20px;
 }
+

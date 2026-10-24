@@ -266,3 +266,6 @@
     font-size: 23px;
   }
 }
+.content-grid.read-only {
+  grid-template-columns: minmax(0, 1fr);
+}
